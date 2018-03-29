@@ -47,6 +47,12 @@ div.slidecontainer p{
   width: 27%;
   font:80% Helvetica, sans-serif;
 }
+div.legend p{
+  display:inline-block;
+  width: 90%;
+  font:80% Helvetica, sans-serif;
+}
+
 
 
 input[type=number]{
@@ -65,13 +71,18 @@ input[type=range]{
   div.slidecontainer{
     width:60%;
     margin-bottom:50px;
+
   }
+  div.legend p{
+  display:none;}
+
 }
 
 @media only screen and (max-width: 900px) {
   div.slidecontainer{
     width:100%;
   }
+
 }
 
 input[type=range] {
