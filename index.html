@@ -24,7 +24,7 @@
   
 	<div>
 		<input type="range" min="50" max="1000" value="100" class="slider" id="dispLv">
- 		<p>Disp. white point luminance cd/m2</p>
+ 		<p >Disp. white point luminance cd/m2</p>
 		<input type="number" min="50" max="1000" value="100" class="form" id="vl_dispLv">
 	</div>
 	<div>
@@ -62,6 +62,10 @@
 		<p>Background Color</p>
 		
 	</div>
+	<div>
+	<p id="polarity_warning" style="font:90% Helvetica, sans-serif; color: red; width:100%; margin: 0px;" >! Not tested for inverse polarity</p>
+	
+	</div>
 	<div class="legend">
 
 
@@ -72,9 +76,33 @@
 				<p id="calc_contrast_text" style="font:80% Helvetica, sans-serif; width:100%; margin: 10px;" >W3C contrast = <span id="calc_contrast">21</span>:1</p>
 			</div>
 		</li>
-		<li style="font:80% Helvetica, sans-serif;"> <div style=" width: 15px; height: 15px; background-color: rgb(178,178,178); display: inline-block;"></div>  95% confidence range </li>
+
+		<li style="font:80% Helvetica, sans-serif;margin-bottom: 10px;" > <div style=" width: 15px; height: 15px; background-color: rgb(178,178,178); display: inline-block;"></div>  95% confidence range </li>
+
 		<li style="font:80% Helvetica, sans-serif;"> <div style=" width: 15px; height: 2px; margin-bottom: 3px; background-color: red; display: inline-block;"></div>  Mean </li>
+
+		<li style="font:90% Helvetica, sans-serif; margin-top: 50px;"> 
+		<p><strong>Display white point luminance cd/m2</strong>: Luminous flux per unit solid angle per unit projected source area. (cd/m2 or Nit) Often referred as Brightness in displays specifications.</p>
+		</li>
+
+		<li style="font:90% Helvetica, sans-serif;"> 
+		<p><strong>Display static contrast ratio</strong>: ratio of the luminance of the brightest color (white) to that of the darkest color (black) that the system is capable of producing at the same time.</p>
+		</li>
+
+		<li style="font:90% Helvetica, sans-serif;"> 
+		<p><strong>Display black point luminance cd/m2</strong>: luminance of the darkest color (black) that the system is capable of producing. The reference veiling glare luminance specified the IEC 61966-2-1 document is 0.2 cd/m2 (this is the reference viewer-observed black point luminance) and can be used if contrast ratio or display black point are unknown.</p>
+		</li>
+
+
+		<li style="font:90% Helvetica, sans-serif;"> 
+		<p><strong>Display Reflectance</strong>: Normalized value (0-1) of the proportion of ambient light reflecting off the display. Normal values can be 0.1 for a matte display or as low as 0.047 for a treated glossy display (iPhone 7).</p>
+		</li>
+
+		<li style="font:90% Helvetica, sans-serif;"> 
+		<p><strong>Display Reflectance</strong>: Normalized value (0-1) of the proportion of ambient light reflecting off the display. Normal values can be 0.1 for a matte display or as low as 0.047 for a treated glossy display (iPhone 7).</p>
+		</li>
 	
+
 	</ul>
 	
 	</div>
