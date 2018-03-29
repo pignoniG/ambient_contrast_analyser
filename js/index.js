@@ -102,7 +102,6 @@ vl_gamma.oninput = function() {
   plot();
 }
 
-
 var sl_dispOffLv = document.getElementById("dispOffLv");
 var vl_dispOffLv = document.getElementById("vl_dispOffLv");
 sl_dispOffLv.oninput = function() {
@@ -124,12 +123,8 @@ vl_dispOffLv.oninput = function() {
 }
 
 
-
-
-
 var sl_dispcon = document.getElementById("dispcon");
 var vl_dispcon = document.getElementById("vl_dispcon");
-
 sl_dispcon.oninput = function() {
   dispcon = parseFloat(this.value);
   dispOffLv = dispLv/dispcon;
@@ -161,6 +156,7 @@ vl_Rl.oninput = function() {
   plot();
 }
 
+  
 var sl_ambLux = document.getElementById("ambLux");
 var vl_ambLux = document.getElementById("vl_ambLux");
 sl_ambLux.oninput = function() {
@@ -173,8 +169,6 @@ vl_ambLux.oninput = function() {
   sl_ambLux.value = ambLux;
   plot();
 }
-
-
 
 
 
@@ -209,14 +203,13 @@ vl_backg.oninput = function() {
 
 }
 
-ambLux =parseFloat(sl_ambLux.value);
-gamma=parseFloat(sl_ambLux.value);
-dispOffLv=parseFloat(dispOffLv.value);
-dispLv= parseFloat(vl_dispLv.value);
-dispcon=parseFloat(vl_dispcon.value);
-Rl = parseFloat(vl_Rl.value);
-backgColor = [255,255,255];
-foregColor = [0,0,0];
+var ambLux =parseFloat(sl_ambLux.value);
+var gamma=parseFloat(vl_gamma.value);
+var dispLv= parseFloat(vl_dispLv.value);
+var dispcon=parseFloat(vl_dispcon.value);
+var Rl = parseFloat(vl_Rl.value);
+var backgColor = [255,255,255];
+var foregColor = [0,0,0];
 
 
 
@@ -235,13 +228,14 @@ var options_con = {
  
  
   target: '#contrast',
-  width: 1000,
-  height: 300,
+  width: 850,
+  height: 250,
   disableZoom :true,
   xAxis: {
     label: 'Ambient Illuminat (Lux)',
-    domain: [0, ambLux]
-  },
+    domain: [0,  ambLux],
+    renderer: function (x,index) {
+      return (x.toString() +":1") } },
 
   yAxis: {
     label: 'Ambient Contrast Ratio',
@@ -264,12 +258,12 @@ var options = {
       return (precisionRound(y,0).toString()+"ms @ " +precisionRound(x,0).toString() +"lux" ) } },
      
   target: '#multiple',
-  width: 1000,
-  height: 600,
+  width: 850,
+  height: 500,
   disableZoom :true,
   xAxis: {
     label: 'Ambient Illuminat (Lux)',
-    domain: [0, ambLux]
+    domain: [0,  ambLux]
   },
   yAxis: {
     label: 'Reference recognition time (ms)',
@@ -289,24 +283,23 @@ function plot() {
  
   if (foreg < backg){
     [normHi,normLw]= [backg,foreg];
+    document. getElementById("polarity_warning").style.color = 'white';
   }
   else{
       [normHi,normLw]= [foreg,backg];
+      document. getElementById("polarity_warning").style.color = 'red';
   }
-
-
-
-
 
   
   document.getElementById("calc_contrast").innerHTML = precisionRound( contrastRatioCalc(normHi,normLw), 1);
 
-  
+  dispOffLv = dispLv/dispcon;
 
   hiLv=dispLv*normHi+dispOffLv*(1-normHi);
   lwLv=dispLv*normLw+dispOffLv*(1-normLw);
 
-  
+
+
   options_con.data=[{fn:'(('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.3682054)',color: 'black', nPoints:50}];
   
 
@@ -323,16 +316,6 @@ function plot() {
     { fn: '555.7534 + (4999687000 - 555.7534)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.3682054)^13.54447)'
 , graphType: 'polyline',range: [0, ambLux],
     closed: true, color: 'black', nPoints:50 }];
-    
-//   options.data = [{ fn: '1032.753 + (6823.572 - 1032.753)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/1.125596)^27.3107)'
-// , graphType: 'polyline',range: [0, 15000],
-//     closed: true , color: 'black', nPoints:50},
-//     { fn: '779.2451 + (7460499000 - 779.2451)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.4192372)^15.31096)'
-// , graphType: 'polyline',range: [0, 15000],
-//     closed: false, color: 'red', nPoints:50 },
-//     { fn: '555.7534 + (4999687000 - 555.7534)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.3682054)^13.54447)'
-// , graphType: 'polyline',range: [0, 15000],
-//     closed: true, color: 'black', nPoints:50 }];
     
 
 
