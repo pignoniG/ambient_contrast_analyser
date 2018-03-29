@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Lcd Iluminant Contrast Analyzer</title>
+  
+  
+  
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+  <script src="https://unpkg.com/d3@3/d3.min.js"></script>
+
+<script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
+
+
+
+<div class="slidecontainer">
+  
+	<div>
+		<input type="range" min="50" max="1000" value="100" class="slider" id="dispLv">
+ 		<p>Disp. white point luminance cd/m2</p>
+		<input type="number" min="50" max="1000" value="100" class="form" id="vl_dispLv">
+	</div>
+	<div>
+		<input type="range" min="50" max="2000" value="400" class="slider" id="dispcon">
+    	<p>Display contrast ratio </p>
+		<input type="number" min="50" max="2000" value="400" class="form" id="vl_dispcon">
+	</div>
+	<div>
+		<input type="range" min="0" max="10" value="0.25" step="0.01"  class="slider" id="dispOffLv">
+ 		<p>Disp. black point luminance cd/m2</p>
+		<input type="number" min="0" max="10" value="0.25" step="0.01" class="form" id="vl_dispOffLv">
+	</div>
+	<div>
+		<input type="range" min="0.01" max="0.5" value="0.11" step="0.001" class="slider" id="Rl">
+   		<p>Display Reflectance </p>
+		<input type="number" min="0.01" max="0.5" value="0.11" step="0.001" class="form" id="vl_Rl">
+	</div>
+
+	<div>
+		<input type="range" min="1000" max="50000" value="10000" step="1000" class="slider" id="ambLux">
+   		<p>Ambient Illuminant scale (lux)</p>
+		<input type="number" min="1000" max="50000" value="10000" step="1000" class="form" id="vl_ambLux">
+	</div>
+	<div>
+   		<p>Gamma setting </p>
+		<input type="number" min="1.8" max="2.4" value="2.2" step="0.1" class="form" id="vl_gamma">
+	</div>
+	<div>
+		<input type="color" class="form" value="#000000" id="vl_foreg">
+		<p>Text Color</p>
+		
+	</div>
+	<div>
+		<input type="color" class="form" value="#FFFFFF" id="vl_backg">
+		<p>Background Color</p>
+		
+	</div>
+	<div class="legend">
+
+
+  
+	<ul style="list-style-type: none;">
+		<li>
+			<div class="contrast_box" id="calc_contrast_box" style="margin-bottom: 10px; width: 60%;">
+				<p id="calc_contrast_text" style="font:80% Helvetica, sans-serif; width:100%; margin: 10px;" >W3C contrast = <span id="calc_contrast">21</span>:1</p>
+			</div>
+		</li>
+		<li style="font:80% Helvetica, sans-serif;"> <div style=" width: 15px; height: 15px; background-color: rgb(178,178,178); display: inline-block;"></div>  95% confidence range </li>
+		<li style="font:80% Helvetica, sans-serif;"> <div style=" width: 15px; height: 2px; margin-bottom: 3px; background-color: red; display: inline-block;"></div>  Mean </li>
+	
+	</ul>
+	
+	</div>
+</div>
+
+
+
+
+
+<span id="multiple" > </span>
+
+<span id="contrast" > </span>
+  
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>

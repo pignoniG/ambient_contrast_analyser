@@ -1,0 +1,186 @@
+#multiple{
+  float:right;
+}
+#contrast{
+  float:right;
+}
+
+
+div.slidecontainer{
+  float:left;
+}
+.function-plot .x.axis .tick line {
+  color: red;
+}
+.function-plot .x.axis .tick text {
+  font:70% Helvetica, sans-serif;
+}
+.function-plot .y.axis .tick text {
+  font:70% Helvetica, sans-serif;
+}
+.function-plot g.annotations path{
+  stroke:rgb(0, 0, 0);
+}
+.function-plot g.annotations text{
+  font:70% Helvetica, sans-serif;
+}
+.function-plot text.y.axis-label,.function-plot text.x.axis-label{
+  font:80% Helvetica, sans-serif;
+}
+
+.function-plot g.tip text{
+  font:70% Helvetica, sans-serif;
+}
+.function-plot text.top-right-legend{
+  display:none;
+}
+
+.function-plot{
+  max-width:100%;
+}
+
+div.slidecontainer{
+ width:30%;
+}
+div.slidecontainer p{
+  display:inline-block;
+  width: 27%;
+  font:80% Helvetica, sans-serif;
+}
+
+
+input[type=number]{
+  display:inline-block;
+  width: 10%;
+  margin-left: 10px;
+}
+input[type=range]{
+  display:inline-block;
+   width: 50%; /* Specific width is required for Firefox. */
+}
+
+
+
+@media only screen and (max-width: 1500px) {
+  div.slidecontainer{
+    width:60%;
+    margin-bottom:50px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  div.slidecontainer{
+    width:100%;
+  }
+}
+
+input[type=range] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+
+  background: transparent; /* Otherwise white in Chrome */
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+
+  /* Hides the slider so custom styles can be added */
+  background: transparent; 
+  border-color: transparent;
+  color: transparent;
+}
+
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #000000;
+  height: 20px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  margin-top: -7px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+
+  background: #000;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #000;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: #000;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #000;
+}
+input[type=range]::-ms-fill-upper {
+  background: #000;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #000;
+}
