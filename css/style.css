@@ -1,35 +1,57 @@
-#multiple{
-  float:right;
-}
-#contrast{
-  float:right;
-}
 
+body{
+
+}
+div.graphcontainer{
+
+  float:left;
+  width:60%;
+}
+path.line.line{
+
+fill-opacity: 1;
+}
 
 div.slidecontainer{
-  float:left;
+  float:right;
 }
 .function-plot .x.axis .tick line {
   color: red;
 }
 .function-plot .x.axis .tick text {
-  font:15px Helvetica, sans-serif;
+  font:15px Arial, sans-serif;
 }
 .function-plot .y.axis .tick text {
-  font:15px Helvetica, sans-serif;
+  font:15px Arial, sans-serif;
 }
 .function-plot g.annotations path{
   stroke:rgb(0, 0, 0);
 }
 .function-plot g.annotations text{
-  font:15px Helvetica, sans-serif;
+  font:15px Arial, sans-serif;
 }
 .function-plot text.y.axis-label,.function-plot text.x.axis-label{
-  font:15px Helvetica, sans-serif;
+  font:15px Arial, sans-serif;
 }
 
 .function-plot g.tip text{
-  font:15px Helvetica, sans-serif;
+  font:15px Arial, sans-serif;
+  fill: black;
+}
+.function-plot g.tip path{
+
+  stroke: black;
+}
+
+
+
+
+
+
+
+.function-plot g.tip circle{
+
+  fill: black;
 }
 .function-plot text.top-right-legend{
   display:none;
@@ -42,7 +64,7 @@ div.slidecontainer{
 
 
 div.slidecontainer{
-  width:30%;
+  width:40%;
 }
 ul{
 
@@ -52,17 +74,17 @@ ul{
 div.slidecontainer p{
   display:inline-block;
   width: 27%;
-  font:12px Helvetica, sans-serif;
+  font:12px Arial, sans-serif;
 }
 
 div.legend p{
   display:inline-block;
   width: 90%;
-  font:12px Helvetica, sans-serif;
+  font:12px Arial, sans-serif;
 }
 
 div.legend li{
-  font:15px Helvetica, sans-serif;
+  font:15px Arial, sans-serif;
 }
 
 input[type=number]{
@@ -78,27 +100,54 @@ input[type=range]{
 #calc_contrast_box{ margin-bottom: 10px; width: 60%; }
 
 p#polarity_warning{
-  font:15px Helvetica, sans-serif; color: red; width:100%; margin: 0px;}
+  font:15px Arial, sans-serif; color: red; width:100%; margin: 0px;}
 a{
-  font:12px Helvetica, sans-serif;}
+  font:12px Arial, sans-serif;}
 
 
 
 
 @media only screen and (max-width: 1500px) {
   div.slidecontainer{
-    width:60%;
-    margin-bottom:50px;
+    width:100%;
+
+
 
   }
+  div.graphcontainer{
+
+
+  width:100%;
+  }
+  
+
+    div.text{
+  width:50%;
+  float: left;
+}
+  div.legend{
+  width:50%;
+  float: right;
+}
+
 
 
 }
 
 @media only screen and (max-width: 900px) {
-  div.slidecontainer{
-    width:100%;
-  }
+    div.text{
+  width:100%;
+  float: left;
+}
+  div.legend{
+  width:100%;
+  float: right;
+}
+
+span#contrast{
+  display: none;
+}
+
 
 }
 
