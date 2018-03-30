@@ -87,11 +87,20 @@ sl_dispLv.oninput = function() {
 
   dispLv = parseFloat(this.value);
   vl_dispLv.value = dispLv;
+  dispcon = dispLv/dispOffLv ;
+  sl_dispcon.value = dispcon;
+  vl_dispcon.value = dispcon;
+
+
   plot();
 }
 vl_dispLv.oninput = function() { 
   dispLv = parseFloat(this.value); 
   sl_dispLv.value = dispLv;
+  dispcon = dispLv/dispOffLv ;
+  sl_dispcon.value = dispcon;
+  vl_dispcon.value = dispcon;
+
   plot();
 }
 var vl_gamma = document.getElementById("vl_gamma");
@@ -277,6 +286,15 @@ var options = {
 
 function plot() {
 
+  wdt=document.documentElement.clientWidth;
+  if (wdt>1500) {
+    wdt=wdt/1.6;
+  }
+  else {
+    wdt=wdt;
+  }
+
+
   foreg = relativeLuminanceClac(foregColor[0],foregColor[1],foregColor[2]);
   backg = relativeLuminanceClac(backgColor[0],backgColor[1],backgColor[2]);
 
@@ -298,7 +316,8 @@ function plot() {
   hiLv=dispLv*normHi+dispOffLv*(1-normHi);
   lwLv=dispLv*normLw+dispOffLv*(1-normLw);
 
-
+ options_con.width=wdt;
+ options.width=wdt;
 
   options_con.data=[{fn:'(('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.3682054)',color: 'black', nPoints:50}];
   
@@ -337,8 +356,8 @@ function plot() {
 }
 
 
-
- 
- 
+window.onresize = function() {
+   plot();
+};
 
 plot()
