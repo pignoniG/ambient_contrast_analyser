@@ -13,23 +13,23 @@ div.slidecontainer{
   color: red;
 }
 .function-plot .x.axis .tick text {
-  font:70% Helvetica, sans-serif;
+  font:15px Helvetica, sans-serif;
 }
 .function-plot .y.axis .tick text {
-  font:70% Helvetica, sans-serif;
+  font:15px Helvetica, sans-serif;
 }
 .function-plot g.annotations path{
   stroke:rgb(0, 0, 0);
 }
 .function-plot g.annotations text{
-  font:70% Helvetica, sans-serif;
+  font:15px Helvetica, sans-serif;
 }
 .function-plot text.y.axis-label,.function-plot text.x.axis-label{
-  font:80% Helvetica, sans-serif;
+  font:15px Helvetica, sans-serif;
 }
 
 .function-plot g.tip text{
-  font:70% Helvetica, sans-serif;
+  font:15px Helvetica, sans-serif;
 }
 .function-plot text.top-right-legend{
   display:none;
@@ -39,21 +39,31 @@ div.slidecontainer{
   max-width:100%;
 }
 
+
+
 div.slidecontainer{
- width:30%;
+  width:30%;
 }
+ul{
+
+  list-style-type: none;
+}
+
 div.slidecontainer p{
   display:inline-block;
   width: 27%;
-  font:80% Helvetica, sans-serif;
+  font:12px Helvetica, sans-serif;
 }
+
 div.legend p{
   display:inline-block;
   width: 90%;
-  font:80% Helvetica, sans-serif;
+  font:12px Helvetica, sans-serif;
 }
 
-
+div.legend li{
+  font:15px Helvetica, sans-serif;
+}
 
 input[type=number]{
   display:inline-block;
@@ -64,6 +74,14 @@ input[type=range]{
   display:inline-block;
    width: 50%; /* Specific width is required for Firefox. */
 }
+
+#calc_contrast_box{ margin-bottom: 10px; width: 60%; }
+
+p#polarity_warning{
+  font:15px Helvetica, sans-serif; color: red; width:100%; margin: 0px;}
+a{
+  font:12px Helvetica, sans-serif;}
+
 
 
 
