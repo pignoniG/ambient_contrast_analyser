@@ -2,109 +2,198 @@
 <html lang="en" >
 
 <head>
-  <meta charset="UTF-8">
-  <title>Lcd Iluminant Contrast Analyzer</title>
-  
-  
-  
-      <link rel="stylesheet" href="css/style.css">
-
-  
+	<meta charset="UTF-8">
+	<title>Lcd Iluminant Contrast Analyzer</title>
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-  <script src="https://unpkg.com/d3@3/d3.min.js"></script>
-
+<script src="https://unpkg.com/d3@3/d3.min.js"></script>
 <script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
 
-
-
 <div class="slidecontainer">
+	<ul>
   
-	<div>
-		<input type="range" min="50" max="1000" value="100" class="slider" id="dispLv">
- 		<p >Disp. white point luminance cd/m2</p>
-		<input type="number" min="50" max="1000" value="100" class="form" id="vl_dispLv">
-	</div>
-	<div>
-		<input type="range" min="50" max="2000" value="400" class="slider" id="dispcon">
-    	<p>Display contrast ratio </p>
-		<input type="number" min="50" max="2000" value="400" class="form" id="vl_dispcon">
-	</div>
-	<div>
-		<input type="range" min="0" max="10" value="0.25" step="0.01"  class="slider" id="dispOffLv">
- 		<p>Disp. black point luminance cd/m2</p>
-		<input type="number" min="0" max="10" value="0.25" step="0.01" class="form" id="vl_dispOffLv">
-	</div>
-	<div>
-		<input type="range" min="0.01" max="0.5" value="0.11" step="0.001" class="slider" id="Rl">
-   		<p>Display Reflectance </p>
-		<input type="number" min="0.01" max="0.5" value="0.11" step="0.001" class="form" id="vl_Rl">
-	</div>
+		<li>
+			<div>
+			<input type="range" min="50" max="1000" value="100" class="slider" id="dispLv">
+ 			<p >Disp. white point luminance cd/m2</p>
+			<input type="number" min="50" max="1000" value="100" class="form" id="vl_dispLv">
+		</div>
+		</li>
 
-	<div>
-		<input type="range" min="1000" max="50000" value="10000" step="1000" class="slider" id="ambLux">
-   		<p>Ambient Illuminant scale (lux)</p>
-		<input type="number" min="1000" max="50000" value="10000" step="1000" class="form" id="vl_ambLux">
-	</div>
-	<div>
-   		<p>Gamma setting </p>
-		<input type="number" min="1.8" max="2.4" value="2.2" step="0.1" class="form" id="vl_gamma">
-	</div>
-	<div>
-		<input type="color" class="form" value="#000000" id="vl_foreg">
-		<p>Text Color</p>
-		
-	</div>
-	<div>
-		<input type="color" class="form" value="#FFFFFF" id="vl_backg">
-		<p>Background Color</p>
-		
-	</div>
-	<div>
-	<p id="polarity_warning" style="font:90% Helvetica, sans-serif; color: red; width:100%; margin: 0px;" >! Not tested for inverse polarity</p>
+		<li>
+			<div>
+			<input type="range" min="0" max="10" value="0.25" step="0.01"  class="slider" id="dispOffLv">
+ 			<p>Disp. black point luminance cd/m2</p>
+			<input type="number" min="0" max="10" value="0.25" step="0.01" class="form" id="vl_dispOffLv">
+		</div>
+		</li>
+
+		<li>
+			<div>
+			<input type="range" min="50" max="5000" value="400" class="slider" id="dispcon">
+   	 	<p>Display contrast ratio </p>
+			<input type="number" min="50" max="5000" value="400" class="form" id="vl_dispcon">
+		</div>
+		</li>
+
+		<li>
+			<div>
+			<input type="range" min="0.01" max="0.5" value="0.11" step="0.001" class="slider" id="Rl">
+   			<p>Display Reflectance </p>
+			<input type="number" min="0.01" max="0.5" value="0.11" step="0.001" class="form" id="vl_Rl">
+		</div>
+		</li>
 	
-	</div>
+		<li>
+			<div>
+			<input type="range" min="1000" max="50000" value="10000" step="1000" class="slider" id="ambLux">
+   			<p>Ambient Illuminant scale (lux)</p>
+			<input type="number" min="1000" max="50000" value="10000" step="1000" class="form" id="vl_ambLux">
+		</div>
+		</li>
+		<li>
+			<div>
+   			<p>Gamma setting </p>
+			<input type="number" min="1.8" max="2.4" value="2.2" step="0.1" class="form" id="vl_gamma">
+		</div>
+		</li>
+		<li>
+			<div>
+			<input type="color" class="form" value="#000000" id="vl_foreg">
+			<p>Text Color</p>
+			
+		</div>
+		</li>
+		<li>
+			<div>
+			<input type="color" class="form" value="#FFFFFF" id="vl_backg">
+			<p>Background Color</p>
+			
+		</div>
+		</li>
+		<li>
+			<div>
+		<p id="polarity_warning">! Not tested for inverse polarity</p>
+		
+		</div>
+		</li>
+	</ul>
 	<div class="legend">
 
+		<ul >
+			<li style="font:12px Helvetica, sans-serif;margin-bottom: 10px;" > <strong>Legend</strong> </li>
+	
+			<li>
+				<div class="contrast_box" id="calc_contrast_box" >
+					<p id="calc_contrast_text" style=" width:100%; margin: 10px;" >W3C contrast = <span id="calc_contrast">21</span>:1</p>
+				</div>
+			</li>
+	
+			<li style="font:12px Helvetica, sans-serif;margin-bottom: 10px;" > <div style=" width: 15px; height: 15px; background-color: rgb(	178,178,178); display: inline-block;"></div>  95% confidence range </li>
+	
+			<li style="font:12px Helvetica, sans-serif;"> <div style=" width: 15px; height: 2px; margin-bottom: 3px; background-color: red; 	display: inline-block;"></div>  Mean </li>
+	
+			<li style=" "> 
+				<p>Estimated readability of a text stimuli material displayed on LCD screen at variable illuminant conditions.
+				Consider 800ms as target duration for the correct recognition (80% threshold) of four underscore random characters composed in Microsoft Times New Roman with font size set at 04 degrees of visual angle (24 arc-minutes) and distance between characters of 2 degrees (3/4 saccades required =~ 800ms).
+			</p>
+			</li>
+			<li style=" margin-top: 20px;"> 
+				<p><strong>Display white point luminance cd/m2</strong>: Luminous flux per unit solid angle per unit projected source area. (cd/	m2 or Nit) Often referred as Brightness in displays specifications.</p>
+			</li>
+	
+			<li> 
+				<p><strong>Display static contrast ratio</strong>: ratio of the luminance of the brightest color (white) to that of the darkest 	color (black) that the system is capable of producing at the same time.</p>
+			</li>
+	
+			<li> 
+				<p><strong>Display black point luminance cd/m2</strong>: luminance of the darkest color (black) that the system is capable of 	producing. The reference veiling glare luminance specified the IEC 61966-2-1 document is 0.2 cd/m2 (this is the reference 	viewer-observed black point luminance) and can be used if contrast ratio or display black point are unknown.</p>
+			</li>
+	
+	
+			<li> 
+				<p><strong>Display Reflectance</strong>: Normalized value (0-1) of the proportion of ambient light reflecting off the display. 	Normal values can be 0.1 for a matte display or as low as 0.047 for a treated glossy display (iPhone 7).</p>
+			</li>
+	
+			<li> 
+				<p><strong>Display Reflectance</strong>: Normalized value (0-1) of the proportion of ambient light reflecting off the display. 	Normal values can be 0.1 for a matte display or as low as 0.047 for a treated glossy display (iPhone 7).</p>
+			</li>
 
-  
-	<ul style="list-style-type: none;">
-		<li>
-			<div class="contrast_box" id="calc_contrast_box" style="margin-bottom: 10px; width: 60%;">
-				<p id="calc_contrast_text" style="font:80% Helvetica, sans-serif; width:100%; margin: 10px;" >W3C contrast = <span id="calc_contrast">21</span>:1</p>
-			</div>
-		</li>
+			<li>
+				
+				<table class="wikitable" style="text-align: left; font:12px Helvetica;">
+<tbody><tr>
+<td><b>Illuminance (lux)</b></td>
+<td><b>Source</b></td>
+</tr>
+<tr>
+<td>0.05–0.3</td>
+<td>Full moon on a clear night</td>
+</tr>
+<tr>
+<td>3.4</td>
+<td><a href="/wiki/Twilight#Civil_twilight" title="Twilight">Civil twilight</a> under a clear sky</td>
+</tr>
+<tr>
+<td>20–50</td>
+<td>Public areas with dark surroundings</td>
+</tr>
+<tr>
+<td>50</td>
+<td>Family living room</td>
+</tr>
+<tr>
+<td>80</td>
+<td>Office building hallway/toilet nlighting</td>
+</tr>
+<tr>
+<td>100</td>
+<td>Very dark overcast day</td>
+</tr>
+<tr>
+<td>150</td>
+<td>Train station platforms</td>
+</tr>
+<tr>
+<td>320–500</td>
+<td>Office lighting</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Sunrise or sunset, clear day.</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>Overcast day, typical TV studio lighting</td>
+</tr>
 
-		<li style="font:80% Helvetica, sans-serif;margin-bottom: 10px;" > <div style=" width: 15px; height: 15px; background-color: rgb(178,178,178); display: inline-block;"></div>  95% confidence range </li>
+<tr>
+<td>2000-5000</td>
+<td>Detailed/precision Mechanical Works</td>
+</tr>
+<tr>
+<td>10,000–25,000</td>
+<td>Full daylight (no direct sun)</td>
+</tr>
+<tr>
+<td>32,000–100,000</td>
+<td>Direct sunlight</td>
+</tr>
+</tbody></table>
+<a href="https://en.wikipedia.org/wiki/Lux" title="Sunlight">from Wikipedia </a>
 
-		<li style="font:80% Helvetica, sans-serif;"> <div style=" width: 15px; height: 2px; margin-bottom: 3px; background-color: red; display: inline-block;"></div>  Mean </li>
-
-		<li style="font:90% Helvetica, sans-serif; margin-top: 50px;"> 
-		<p><strong>Display white point luminance cd/m2</strong>: Luminous flux per unit solid angle per unit projected source area. (cd/m2 or Nit) Often referred as Brightness in displays specifications.</p>
-		</li>
-
-		<li style="font:90% Helvetica, sans-serif;"> 
-		<p><strong>Display static contrast ratio</strong>: ratio of the luminance of the brightest color (white) to that of the darkest color (black) that the system is capable of producing at the same time.</p>
-		</li>
-
-		<li style="font:90% Helvetica, sans-serif;"> 
-		<p><strong>Display black point luminance cd/m2</strong>: luminance of the darkest color (black) that the system is capable of producing. The reference veiling glare luminance specified the IEC 61966-2-1 document is 0.2 cd/m2 (this is the reference viewer-observed black point luminance) and can be used if contrast ratio or display black point are unknown.</p>
-		</li>
-
-
-		<li style="font:90% Helvetica, sans-serif;"> 
-		<p><strong>Display Reflectance</strong>: Normalized value (0-1) of the proportion of ambient light reflecting off the display. Normal values can be 0.1 for a matte display or as low as 0.047 for a treated glossy display (iPhone 7).</p>
-		</li>
-
-		<li style="font:90% Helvetica, sans-serif;"> 
-		<p><strong>Display Reflectance</strong>: Normalized value (0-1) of the proportion of ambient light reflecting off the display. Normal values can be 0.1 for a matte display or as low as 0.047 for a treated glossy display (iPhone 7).</p>
-		</li>
+			</li>
+		
 	
 
-	</ul>
-	
+
+
+
+		</ul>
+		
 	</div>
 </div>
 
@@ -118,7 +207,7 @@
   
   
 
-    <script  src="js/index.js"></script>
+<script  src="js/index.js"></script>
 
 
 
