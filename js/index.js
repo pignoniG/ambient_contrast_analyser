@@ -288,7 +288,7 @@ function plot() {
 
   wdt=document.documentElement.clientWidth;
   if (wdt>1500) {
-    wdt=wdt/1.6;
+    wdt=wdt*0.6;
   }
   else {
     wdt=wdt;
@@ -328,13 +328,13 @@ function plot() {
   options.data = [{  
   fn: '1032.753 + (6823.572 - 1032.753)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/1.125596)^27.3107)'
 , graphType: 'polyline',range: [0, ambLux],
-    closed: true , color: 'black', nPoints:50},
+    closed: true , color: 'rgb( 178, 178, 178)', nPoints:50},
     { fn: '779.2451 + (7460499000 - 779.2451)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.4192372)^15.31096)'
 , graphType: 'polyline',range: [0, ambLux],
     closed: false, color: 'red', nPoints:50 },
     { fn: '555.7534 + (4999687000 - 555.7534)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.3682054)^13.54447)'
 , graphType: 'polyline',range: [0, ambLux],
-    closed: true, color: 'black', nPoints:50 }];
+    closed: true, color: 'white', nPoints:50 }];
     
 
 
@@ -350,7 +350,10 @@ function plot() {
   return format(d) + ':1'}
   plot_b.meta.yAxis.tickFormat(newFormat)
   plot_b.draw()
-  
+  $( "#multiple g.annotations" ).detach().appendTo( "#multiple g.content" );
+  $( "#multiple .x.axis" ).detach().appendTo( "#multiple g.canvas" );
+  $( "#multiple .y.axis" ).detach().appendTo( "#multiple g.canvas" );
+
 
   
 }
@@ -358,6 +361,7 @@ function plot() {
 
 window.onresize = function() {
    plot();
+
 };
 
 plot()
