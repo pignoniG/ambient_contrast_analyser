@@ -43,6 +43,14 @@ div.slidecontainer{
   stroke: black;
 }
 
+span#contrast  g.annotations text{
+  font:15px Arial, sans-serif;
+ transform:translate(30px,10px) ;
+
+}
+span#contrast  g.annotations path{
+ stroke-dasharray:5; 
+}
 
 
 
