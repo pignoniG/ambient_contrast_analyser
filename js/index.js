@@ -241,13 +241,13 @@ var options_con = {
   height: 250,
   disableZoom :true,
   xAxis: {
-    label: 'Ambient Illuminat (Lux)',
+    label: 'Ambient Illuminat (Lux) ',
     domain: [0,  ambLux],
     renderer: function (x,index) {
       return (x.toString() +":1") } },
 
   yAxis: {
-    label: 'Ambient Contrast Ratio',
+    label: 'Ambient Contrast Ratio ',
     domain: [0, 10] 
   },
   data: [
@@ -271,11 +271,11 @@ var options = {
   height: 500,
   disableZoom :true,
   xAxis: {
-    label: 'Ambient Illuminat (Lux)',
+    label: 'Ambient Illuminat (Lux) ',
     domain: [0,  ambLux]
   },
   yAxis: {
-    label: 'Reference recognition time (ms)',
+    label: 'Reference recognition time (ms) ',
     domain: [0, 3000] 
   },
   data: [ 
@@ -316,17 +316,24 @@ function plot() {
   hiLv=dispLv*normHi+dispOffLv*(1-normHi);
   lwLv=dispLv*normLw+dispOffLv*(1-normLw);
 
+
  options_con.width=wdt;
  options.width=wdt;
 
-  options_con.data=[{fn:'(('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.3682054)',color: 'black', nPoints:50}];
-  
 
-  options.xAxis= {domain: [0, ambLux]};
-  options_con.xAxis= {domain: [0, ambLux]};
+
+  options_con.data=[{fn:'(('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+'))',color: 'black', nPoints:50}];
   
-  options.data = [{  
-  fn: '1032.753 + (6823.572 - 1032.753)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/1.125596)^27.3107)'
+  luxMin=(3.1416*(hiLv - (6*lwLv)))/(5*Rl)
+
+
+  console.log( hiLv,Rl,lwLv,luxMin);
+  options.xAxis.domain=[0, ambLux];
+  options_con.xAxis.domain= [0, ambLux];
+  options_con.annotations =[{x:luxMin, text:'6:1'}];
+  options.data = [
+
+    {  fn: '1032.753 + (6823.572 - 1032.753)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/1.125596)^27.3107)'
 , graphType: 'polyline',range: [0, ambLux],
     closed: true , color: 'rgb( 178, 178, 178)', nPoints:50},
     { fn: '779.2451 + (7460499000 - 779.2451)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.4192372)^15.31096)'
@@ -334,7 +341,7 @@ function plot() {
     closed: false, color: 'red', nPoints:50 },
     { fn: '555.7534 + (4999687000 - 555.7534)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.3682054)^13.54447)'
 , graphType: 'polyline',range: [0, ambLux],
-    closed: true, color: 'white', nPoints:50 }];
+    closed: true, color: 'white', nPoints:50 },{fn: '10000', graphType: 'polyline',range: [0, luxMin],closed: true , color: 'rgba( 178, 0, 0,0.2)', nPoints:50}];
     
 
 
@@ -353,6 +360,10 @@ function plot() {
   $( "#multiple g.annotations" ).detach().appendTo( "#multiple g.content" );
   $( "#multiple .x.axis" ).detach().appendTo( "#multiple g.canvas" );
   $( "#multiple .y.axis" ).detach().appendTo( "#multiple g.canvas" );
+  $( "#multiple .y.axis-label" ).detach().appendTo( "#multiple g.canvas" );
+  $( "#multiple .x.axis-label" ).detach().appendTo( "#multiple g.canvas" );
+  $( "#contrast .x.axis-label" ).detach().appendTo( "#contrast g.canvas" );
+  
 
 
   
