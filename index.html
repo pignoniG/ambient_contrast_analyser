@@ -1,230 +1,378 @@
-<!DOCTYPE html>
-<html lang="en" >
 
-<head>
-	<meta charset="UTF-8">
-	<title>Illuminant/Contrast LCD Analyzer</title>
-	<link rel="stylesheet" href="css/style.css">
-</head>
+function precisionRound(number, precision) {
+  var factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
+}
 
-<body>
 
-<script src="https://unpkg.com/d3@3/d3.min.js"></script>
-<script src="https://unpkg.com/function-plot@1/dist/function-plot.js"></script>
-
-<h3 style="font:18px Arial, sans-serif;font-weight: bold;margin-left: 30px";>Illuminant/Contrast LCD Analyzer</h3>
-
-<div class="graphcontainer">
-<span id="multiple" > </span>
-
-<span id="contrast" > </span>
-</div>
-
-<div class="slidecontainer">
-	<div class="text">
-	<ul>
+function relativeLuminanceClac(R,G,B){
+//     # formula from W3C https://www.w3.org/TR/WCAG20-TECHS/G17.html
+    
+    
+// # Relative luminance
+// #
+// # http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef
+// #https://en.wikipedia.org/wiki/Luminance_(relative)
+// # https://en.wikipedia.org/wiki/Luminosity_function
+// # https://en.wikipedia.org/wiki/Rec._709#Luma_coefficients
+    R= R/255;
+    G= G/255;
+    B= B/255;
   
-		<li>
-			<h4 style="font:12px Arial, sans-serif;font-weight: bold; margin-bottom: 0px";>Display Parameters</h4>
+    if (R <= 0.03928){
+        R = R /12.92;
+        }
+    else{ 
+      R = ((R +0.055)/1.055)**gamma;
+    }
 
-			<div>
-			<input type="range" min="50" max="1000" value="100" class="slider" id="dispLv">
- 			<p >Disp. white point luminance (cd/m2)</p>
-			<input type="number" min="50" max="1000" value="100" class="form" id="vl_dispLv">
-		</div>
-		</li>
+    if (G <= 0.03928){
+        G = G /12.92;
+        }
+    else{
+        G = ((G +0.055)/1.055)**gamma;
+        }
 
-		<li>
-			<div>
-			<input type="range" min="0" max="10" value="0.25" step="0.01"  class="slider" id="dispOffLv">
- 			<p>Disp. black point luminance (cd/m2)</p>
-			<input type="number" min="0" max="10" value="0.25" step="0.01" class="form" id="vl_dispOffLv">
-		</div>
-		</li>
-
-		<li>
-			<div>
-			<input type="range" min="50" max="5000" value="400" class="slider" id="dispcon">
-   	 	<p>Display contrast ratio </p>
-			<input type="number" min="50" max="5000" value="400" class="form" id="vl_dispcon">
-		</div>
-		</li>
-
-		<li>
-			<div>
-			<input type="range" min="0.01" max="0.5" value="0.11" step="0.001" class="slider" id="Rl">
-   			<p>Display Reflectance </p>
-			<input type="number" min="0.01" max="0.5" value="0.11" step="0.001" class="form" id="vl_Rl">
-		</div>
-		</li>
-	
-		<li>
-			<div>
-			<input type="range" min="1000" max="50000" value="10000" step="1000" class="slider" id="ambLux">
-   			<p>Ambient Illuminant scale (lux)</p>
-			<input type="number" min="1000" max="50000" value="10000" step="1000" class="form" id="vl_ambLux">
-		</div>
-		</li>
-		<li>
-			
-			<div>
-			<h4 style="font:12px Arial, sans-serif;font-weight: bold;margin-bottom: 0px; margin-top: 30px;";>Colour Parameters</h4>
-   			<p>Gamma setting </p>
-			<input type="number" min="1.8" max="2.4" value="2.2" step="0.1" class="form" id="vl_gamma">
-		</div>
-		</li>
-		<li>
-			<div>
-			<input type="color" class="form" value="#000000" id="vl_foreg">
-			<p>Text Colour</p>
-			
-		</div>
-		</li>
-		<li>
-			<div>
-			<input type="color" class="form" value="#FFFFFF" id="vl_backg">
-			<p>Background Colour</p>
-			
-		</div>
-		</li>
-		<li>
-			<div>
-		<p id="polarity_warning">! Not tested for inverse polarity</p>
-		
-		</div>
-		</li>
-	</ul>
-	</div>
-	<div class="legend">
-
-		<ul >
-			<li style="font:12px Arial, sans-serif;margin-bottom: 10px;" > <strong>Legend</strong> </li>
-	
-			<li>
-				<div class="contrast_box" id="calc_contrast_box" >
-					<p id="calc_contrast_text" style=" width:100%; margin: 10px;" >W3C contrast = <span id="calc_contrast">21</span>:1</p>
-				</div>
-			</li>
-	
-			<li style="font:12px Arial, sans-serif;margin-bottom: 10px;" > <div style=" width: 15px; height: 15px; background-color: rgb(	178,178,178); display: inline-block;"></div>  95% confidence range </li>
-	
-			<li style="font:12px Arial, sans-serif;"> <div style=" width: 15px; height: 2px; margin-bottom: 3px; background-color: red; 	display: inline-block;"></div>  Mean </li>
-	
-			<li style=" "> 
-				<p>Estimated readability of a text stimuli material displayed on LCD screen at variable illuminant conditions.
-				Consider 800ms as target duration for the correct recognition (80% threshold) of four underscore random characters composed in Microsoft Times New Roman with font size set at 0.4 degrees of visual angle (24 arc-minutes) and distance between characters of 2 degrees (3/4 saccades required =~ 800ms).
-			</p>
-			</li>
-			<li style=" margin-top: 20px;"> 
-				<p><strong>Display white point luminance cd/m2</strong>: Luminous flux per unit solid angle per unit projected source area. (cd/	m2 or Nit) Often referred as Brightness in displays specifications.</p>
-			</li>
-	
-			<li> 
-				<p><strong>Display static contrast ratio</strong>: ratio of the luminance of the brightest colour (white) to that of the darkest 	color (black) that the system is capable of producing at the same time.</p>
-			</li>
-	
-			<li> 
-				<p><strong>Display black point luminance cd/m2</strong>: luminance of the darkest colour (black) that the system is capable of 	producing. The reference veiling glare luminance specified the IEC 61966-2-1 document is 0.2 cd/m2 (this is the reference 	viewer-observed black point luminance) and can be used if contrast ratio or display black point are unknown.</p>
-			</li>
-	
-	
-			<li> 
-				<p><strong>Display Reflectance</strong>: Normalized value (0-1) of the proportion of ambient light reflecting off the display. 	Normal values can be 0.1 for a matte display or as low as 0.047 for a treated glass display (iPhone 7).</p>
-			</li>
+    if (B <= 0.03928){
+        B = B /12.92;
+        }
+    else{
+        B = ((B +0.055)/1.055)**gamma;
+        }
 
 
-			<li>
-	
+    L = 0.2126 * R + 0.7152 * G + 0.0722 * B;
+    
+    return L;
+}
 
-			<p><strong>Ambient Illuminant scale </strong>(common values).</p>
-				<table class="wikitable" style="text-align: left; font:12px Arial;">
-<tbody><tr>
-<td><b>Illuminance (lux)</b></td>
-<td><b>Source</b></td>
-</tr>
-<tr>
-<td>0.05–0.3</td>
-<td>Full moon on a clear night</td>
-</tr>
-<tr>
-<td>3.4</td>
-<td><a href="/wiki/Twilight#Civil_twilight" title="Twilight">Civil twilight</a> under a clear sky</td>
-</tr>
-<tr>
-<td>20–50</td>
-<td>Public areas with dark surroundings</td>
-</tr>
-<tr>
-<td>50</td>
-<td>Family living room</td>
-</tr>
-<tr>
-<td>80</td>
-<td>Office building hallway/toilet nlighting</td>
-</tr>
-<tr>
-<td>100</td>
-<td>Very dark overcast day</td>
-</tr>
-<tr>
-<td>150</td>
-<td>Train station platforms</td>
-</tr>
-<tr>
-<td>320–500</td>
-<td>Office lighting</td>
-</tr>
-<tr>
-<td>400</td>
-<td>Sunrise or sunset, clear day.</td>
-</tr>
-<tr>
-<td>1000</td>
-<td>Overcast day, typical TV studio lighting</td>
-</tr>
 
-<tr>
-<td>2000-5000</td>
-<td>Detailed/precision Mechanical Works</td>
-</tr>
-<tr>
-<td>10,000–25,000</td>
-<td>Full daylight (no direct sun)</td>
-</tr>
-<tr>
-<td>32,000–100,000</td>
-<td>Direct sunlight</td>
-</tr>
-</tbody></table>
-<a href="https://en.wikipedia.org/wiki/Lux" title="Sunlight">from Wikipedia </a>
-
-			</li>
-		
-	
-
-		
+function contrastRatioCalc(LI,LII){
+     // formula from W3C https://www.w3.org/TR/WCAG20-TECHS/G17.html
+    
+    if (LI > LII){
+        LB = LI;
+        LD = LII;}
+    else{
+        
+        LB = LII;
+        LD = LI;
+      }
+           
+    CR = (LB + 0.05) / (LD + 0.05);
+    
+    return CR;
+}
 
 
 
-		</ul>
 
+function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
 
-
-		
-	</div>
-</div>
+// formula from http://www.javascripter.net/faq/hextorgb.htm
 
 
 
 
 
- <script   src="https://code.jquery.com/jquery-3.3.1.slim.js"   integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA="   crossorigin="anonymous"></script>
-
-<script  src="js/index.js"></script>
 
 
 
+var sl_dispLv = document.getElementById("dispLv");
+var vl_dispLv = document.getElementById("vl_dispLv");
+sl_dispLv.oninput = function() {
 
-</body>
+  dispLv = parseFloat(this.value);
+  vl_dispLv.value = dispLv;
+  dispcon = dispLv/dispOffLv ;
+  sl_dispcon.value = dispcon;
+  vl_dispcon.value = dispcon;
 
-</html>
+
+  plot();
+}
+vl_dispLv.oninput = function() { 
+  dispLv = parseFloat(this.value); 
+  sl_dispLv.value = dispLv;
+  dispcon = dispLv/dispOffLv ;
+  sl_dispcon.value = dispcon;
+  vl_dispcon.value = dispcon;
+
+  plot();
+}
+var vl_gamma = document.getElementById("vl_gamma");
+
+vl_gamma.oninput = function() { 
+  gamma = parseFloat(this.value); 
+
+  plot();
+}
+
+var sl_dispOffLv = document.getElementById("dispOffLv");
+var vl_dispOffLv = document.getElementById("vl_dispOffLv");
+sl_dispOffLv.oninput = function() {
+
+  dispOffLv = parseFloat(this.value);
+  dispcon = dispLv/dispOffLv ;
+  sl_dispcon.value = dispcon;
+  vl_dispcon.value = dispcon;
+  vl_dispOffLv.value = dispOffLv;
+  plot();
+}
+vl_dispOffLv.oninput = function() { 
+  dispOffLv = parseFloat(this.value); 
+  sl_dispOffLv.value = dispOffLv;
+  dispcon = dispLv/dispOffLv ;
+  sl_dispcon.value = dispcon;
+  vl_dispcon.value = dispcon;
+  plot();
+}
+
+
+var sl_dispcon = document.getElementById("dispcon");
+var vl_dispcon = document.getElementById("vl_dispcon");
+sl_dispcon.oninput = function() {
+  dispcon = parseFloat(this.value);
+  dispOffLv = dispLv/dispcon;
+  vl_dispcon.value = dispcon;
+  sl_dispOffLv.value = dispOffLv;
+  vl_dispOffLv.value = dispOffLv;
+  plot();
+}
+vl_dispcon.oninput = function() { 
+  dispcon = parseFloat(this.value); 
+  sl_dispcon.value = dispcon;
+  dispOffLv = dispLv/dispcon;
+  sl_dispOffLv.value = dispOffLv;
+  vl_dispOffLv.value = dispOffLv;
+  plot();
+}
+
+
+var sl_Rl = document.getElementById("Rl");
+var vl_Rl = document.getElementById("vl_Rl");
+sl_Rl.oninput = function() {
+  Rl = parseFloat(this.value);
+  vl_Rl.value = Rl;
+  plot();
+}
+vl_Rl.oninput = function() { 
+  Rl = parseFloat(this.value); 
+  sl_Rl.value = Rl;
+  plot();
+}
+
+  
+var sl_ambLux = document.getElementById("ambLux");
+var vl_ambLux = document.getElementById("vl_ambLux");
+sl_ambLux.oninput = function() {
+  ambLux = parseFloat(this.value);
+  vl_ambLux.value = ambLux;
+  plot();
+}
+vl_ambLux.oninput = function() { 
+  ambLux = parseFloat(this.value); 
+  sl_ambLux.value = ambLux;
+  plot();
+}
+
+
+
+
+var vl_foreg = document.getElementById("vl_foreg");
+
+
+vl_foreg.oninput = function() { 
+
+  R = hexToR(this.value);
+  G = hexToG(this.value);
+  B = hexToB(this.value);
+  foregColor = [R,G,B];
+
+  document.getElementById("calc_contrast_text").style.color = this.value;
+
+  plot();
+
+}
+
+var vl_backg = document.getElementById("vl_backg");
+
+vl_backg.oninput = function() { 
+
+  R = hexToR(this.value);
+  G = hexToG(this.value);
+  B = hexToB(this.value);
+  backgColor = [R,G,B];
+
+  plot();
+  document.getElementById("calc_contrast_box").style.background = this.value;
+
+}
+
+var ambLux =parseFloat(sl_ambLux.value);
+var gamma=parseFloat(vl_gamma.value);
+var dispLv= parseFloat(vl_dispLv.value);
+var dispcon=parseFloat(vl_dispcon.value);
+var Rl = parseFloat(vl_Rl.value);
+var backgColor = [255,255,255];
+var foregColor = [0,0,0];
+
+
+
+
+
+
+var options_con = {
+  
+   tip: {
+    xLine: true,    // dashed line parallel to y = 0
+    yLine: true,    // dashed line parallel to x = 0
+    renderer: function (x, y, index) {
+      return (precisionRound(y,2).toString()+":1 @ " +precisionRound(x,0).toString() +"lux" ) } },
+  
+
+ 
+ 
+  target: '#contrast',
+  width: 850,
+  height: 250,
+  disableZoom :true,
+  xAxis: {
+    label: 'Ambient Illuminat (Lux) ',
+    domain: [0,  ambLux],
+    renderer: function (x,index) {
+      return (x.toString() +":1") } },
+
+  yAxis: {
+    label: 'Ambient Contrast Ratio ',
+    domain: [0, 10] 
+  },
+  data: [
+    
+  ]
+
+};
+
+var options = {
+  
+
+  annotations :[{y:800, text:'800ms'}],
+   tip: {
+    xLine: true,    // dashed line parallel to y = 0
+    yLine: true,    // dashed line parallel to x = 0
+    renderer: function (x, y, index) {
+      return (precisionRound(y,0).toString()+"ms @ " +precisionRound(x,0).toString() +"lux" ) } },
+     
+  target: '#multiple',
+  width: 850,
+  height: 500,
+  disableZoom :true,
+  xAxis: {
+    label: 'Ambient Illuminat (Lux) ',
+    domain: [0,  ambLux]
+  },
+  yAxis: {
+    label: 'Reference recognition time (ms) ',
+    domain: [0, 3000] 
+  },
+  data: [ 
+    
+  ]
+
+};
+
+function plot() {
+
+  wdt=document.documentElement.clientWidth;
+  if (wdt>1500) {
+    wdt=wdt*0.6;
+  }
+  else {
+    wdt=wdt;
+  }
+
+
+  foreg = relativeLuminanceClac(foregColor[0],foregColor[1],foregColor[2]);
+  backg = relativeLuminanceClac(backgColor[0],backgColor[1],backgColor[2]);
+
+ 
+  if (foreg < backg){
+    [normHi,normLw]= [backg,foreg];
+    document. getElementById("polarity_warning").style.color = 'white';
+  }
+  else{
+      [normHi,normLw]= [foreg,backg];
+      document. getElementById("polarity_warning").style.color = 'red';
+  }
+
+  
+  document.getElementById("calc_contrast").innerHTML = precisionRound( contrastRatioCalc(normHi,normLw), 1);
+
+  dispOffLv = dispLv/dispcon;
+
+  hiLv=dispLv*normHi+dispOffLv*(1-normHi);
+  lwLv=dispLv*normLw+dispOffLv*(1-normLw);
+
+
+ options_con.width=wdt;
+ options.width=wdt;
+
+
+
+  options_con.data=[{fn:'(('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+'))',color: 'black', nPoints:50}];
+  
+  luxMin=(3.1416*(hiLv - (6*lwLv)))/(5*Rl)
+
+
+  console.log( hiLv,Rl,lwLv,luxMin);
+  options.xAxis.domain=[0, ambLux];
+  options_con.xAxis.domain= [0, ambLux];
+  options_con.annotations =[{x:luxMin, text:'6:1'}];
+  options.data = [
+
+    {  fn: '1032.753 + (6823.572 - 1032.753)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/1.125596)^27.3107)'
+, graphType: 'polyline',range: [0, ambLux],
+    closed: true , color: 'rgb( 178, 178, 178)', nPoints:50},
+    { fn: '779.2451 + (7460499000 - 779.2451)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.4192372)^15.31096)'
+, graphType: 'polyline',range: [0, ambLux],
+    closed: false, color: 'red', nPoints:50 },
+    { fn: '555.7534 + (4999687000 - 555.7534)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.3682054)^13.54447)'
+, graphType: 'polyline',range: [0, ambLux],
+    closed: true, color: 'white', nPoints:50 },{fn: '10000', graphType: 'polyline',range: [0, luxMin],closed: true , color: 'rgba( 178, 0, 0,0.2)', nPoints:50}];
+    
+
+
+
+   plot_a= functionPlot(options);
+   plot_b= functionPlot(options_con);
+   plot_a.addLink(plot_b);
+   plot_b.addLink(plot_a);
+  // old format
+  var format = plot_b.meta.yAxis.tickFormat()
+  var newFormat= function (d) {
+  // new format = old format + ' i' for imaginary
+  return format(d) + ':1'}
+  plot_b.meta.yAxis.tickFormat(newFormat)
+  plot_b.draw()
+  $( "#multiple g.annotations" ).detach().appendTo( "#multiple g.content" );
+  $( "#multiple .x.axis" ).detach().appendTo( "#multiple g.canvas" );
+  $( "#multiple .y.axis" ).detach().appendTo( "#multiple g.canvas" );
+  $( "#multiple .y.axis-label" ).detach().appendTo( "#multiple g.canvas" );
+  $( "#multiple .x.axis-label" ).detach().appendTo( "#multiple g.canvas" );
+  $( "#contrast .x.axis-label" ).detach().appendTo( "#contrast g.canvas" );
+  
+
+
+  
+}
+
+
+window.onresize = function() {
+   plot();
+
+};
+
+plot()
