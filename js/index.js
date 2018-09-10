@@ -333,13 +333,13 @@ function plot() {
   options_con.annotations =[{x:luxMin, text:'6:1'}];
   options.data = [
 
-    {  fn: '1032.753 + (6823.572 - 1032.753)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/1.125596)^27.3107)'
+    {  fn: '1032 + (6823.572 - 1032)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/1.72)^25.31)'
 , graphType: 'polyline',range: [0, ambLux],
     closed: true , color: 'rgb( 178, 178, 178)', nPoints:50},
-    { fn: '779.2451 + (7460499000 - 779.2451)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.4192372)^15.31096)'
+    { fn: '779 + (7460000000 - 779)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.56)^15.31)'
 , graphType: 'polyline',range: [0, ambLux],
     closed: false, color: 'red', nPoints:50 },
-    { fn: '555.7534 + (4999687000 - 555.7534)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.3682054)^13.54447)'
+    { fn: '555 + (4999687000 - 555)/(1 + (('+hiLv+' + x/3.1416 *'+Rl+')/( '+lwLv+' + x/3.1416*'+Rl+')/0.46)^13.54)'
 , graphType: 'polyline',range: [0, ambLux],
     closed: true, color: 'white', nPoints:50 },{fn: '10000', graphType: 'polyline',range: [0, luxMin],closed: true , color: 'rgba( 178, 0, 0,0.2)', nPoints:50}];
     
